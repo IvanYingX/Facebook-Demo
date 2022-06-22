@@ -1,0 +1,6 @@
+*.pt
+*.csv
+*.ipynb
+*.pkl
+__pycache__/
+cleaned_images/
