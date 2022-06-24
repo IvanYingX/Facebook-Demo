@@ -5,7 +5,7 @@ import torch.optim as optim
 import torch
 from tqdm import tqdm
 import numpy as np
-
+import pickle
 
 class Classifier(nn.Module):
     def __init__(self,
@@ -68,9 +68,8 @@ for epoch in range(n_epochs):
         hist_accuracy.append(accuracy)
         losses.append(loss.item())
         pbar.set_description(f"Epoch = {epoch+1}/{n_epochs}. Acc = {round(torch.sum(torch.argmax(outputs, dim=1) == labels).item()/len(labels), 2)}, Total_acc = {round(np.mean(hist_accuracy), 2)}, Losses = {round(loss.item(), 2)}" )
-        # print(f"Epoch: {epoch} | Batch: {i} | Loss: {loss.item()}")
-        # print('-'*20)
-        # print(f"Accuracy: {torch.sum(torch.argmax(outputs, dim=1) == labels).item()/len(labels)}")
-        # print('-'*20)
 
 torch.save(clf.state_dict(), 'model_bert.pt')
+
+with open('text_decoder.pkl', 'wb') as f:
+    pickle.dump(dataset.decoder, f)
