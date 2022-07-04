@@ -9,6 +9,7 @@ from torch import nn
 from image_process import ImageProcessor
 from PIL import Image
 import pickle
+from fastapi.responses import JSONResponse
 
 class ImageClassifier(nn.Module):
     def __init__(self,
@@ -65,7 +66,7 @@ def dummy_post(image: UploadFile = File(...)):
     print(prediction)
     print(probs)
     print(classes)
-    return "Bye"
+    return JSONResponse(status_code=200, content={'prediction': prediction.tolist(), 'probs': probs.tolist(), 'classes': classes})
 
 @app.post('/text')
 def read_text(text: str = Form(...)):
